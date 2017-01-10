@@ -1,10 +1,10 @@
 /*
     C ECHO client example using sockets
 */
-#include<stdio.h> //printf
-#include<string.h>    //strlen
-#include<sys/socket.h>    //socket
-#include<arpa/inet.h> //inet_addr
+#include<stdio.h>
+#include<string.h>
+#include<sys/socket.h>
+#include<arpa/inet.h>
 #include "crypto.c"
 #include "params.h"
  
@@ -21,7 +21,14 @@ int main(int argc , char *argv[])
         printf("Could not create socket");
     }
     puts("Socket created");
-     
+    
+    if (argc == 0) {
+	server.sin_addr.s_addr = inet_addr(IP_serv);
+    }
+    else {
+	server.sin_addr.s_addr = inet_addr(argv[1]);
+    }
+
     server.sin_addr.s_addr = inet_addr(IP_serv);
     server.sin_family = AF_INET;
     server.sin_port = htons(PORT_serv);
