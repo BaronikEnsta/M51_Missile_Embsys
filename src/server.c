@@ -12,8 +12,7 @@
 
 int main(int argc , char *argv[])
 {
-	while true {
-
+	
 		int socket_desc , client_sock , c , read_size;
 		struct sockaddr_in server , client;
 		char client_message[MAXSIZE];
@@ -30,7 +29,7 @@ int main(int argc , char *argv[])
 		server.sin_family = AF_INET;
 		server.sin_addr.s_addr = INADDR_ANY;
 		server.sin_port = htons(PORT_serv);
-	
+			
 		//Bind
 		if( bind(socket_desc,(struct sockaddr *)&server , sizeof(server)) < 0)
 		{
@@ -40,6 +39,8 @@ int main(int argc , char *argv[])
 		}
 		puts("bind done");
 	
+
+	while(1) {
 		//Listen
 		listen(socket_desc , 3);
 	
@@ -74,7 +75,6 @@ int main(int argc , char *argv[])
 		{
 			perror("recv failed");
 		}
-	
-		return 0;
 	}
+	return 0;
 }
