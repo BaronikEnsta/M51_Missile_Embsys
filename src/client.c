@@ -22,7 +22,7 @@ int main(int argc , char *argv[])
     }
     puts("Socket created");
     
-    if (argc == 0) {
+    if (argc == 1) {
 	server.sin_addr.s_addr = inet_addr(IP_serv);
     }
     else {
