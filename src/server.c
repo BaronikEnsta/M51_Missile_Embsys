@@ -9,6 +9,7 @@
 #include<unistd.h>	//write
 #include "crypto.c"
 #include "params.h"
+#include "fct_led.c"
 
 int main(int argc , char *argv[])
 {
@@ -61,6 +62,7 @@ int main(int argc , char *argv[])
 		while( (read_size = recv(client_sock , client_message, MAXSIZE , 0)) > 0 )
 		{
 			decrypt(client_message);
+			led(client_message);
 			//Send the message back to client
 			write(client_sock , client_message, strlen(client_message));
 			bzero(client_message, MAXSIZE);

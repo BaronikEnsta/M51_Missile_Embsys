@@ -16,16 +16,14 @@ int main(int argc , char *argv[])
      
     //Create socket
     sock = socket(AF_INET , SOCK_STREAM , 0);
-    if (sock == -1)
-    {
+    if (sock == -1){
         printf("Could not create socket");
     }
     puts("Socket created");
     
     if (argc == 1) {
 	server.sin_addr.s_addr = inet_addr(IP_serv);
-    }
-    else {
+    } else {
 	server.sin_addr.s_addr = inet_addr(argv[1]);
     }
 
@@ -34,8 +32,7 @@ int main(int argc , char *argv[])
     server.sin_port = htons(PORT_serv);
  
     //Connect to remote server
-    if (connect(sock , (struct sockaddr *)&server , sizeof(server)) < 0)
-    {
+    if (connect(sock , (struct sockaddr *)&server , sizeof(server)) < 0){
         perror("connect failed. Error");
         return 1;
     }
@@ -55,16 +52,14 @@ int main(int argc , char *argv[])
 		//Send some data
 		encrypt(message);
 		printf("Sending : %s\n", message);
-		if( send(sock , message, strlen(message) , 0) < 0)
-		{
+		if( send(sock , message, strlen(message) , 0) < 0){
 		    puts("Send failed");
 		    return 1;
 		}
 
 		//Receive a reply from the server
 		bzero(server_reply, MAXSIZE);
-		if( recv(sock , server_reply, MAXSIZE , 0) < 0)
-		{
+		if( recv(sock , server_reply, MAXSIZE , 0) < 0){
 		    puts("recv failed");
 		    break;
 		}
