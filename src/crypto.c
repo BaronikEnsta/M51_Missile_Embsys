@@ -7,8 +7,9 @@ void encrypt(char *str)
 
 	while(*p)
 	{
-	 str[n] = (*p + 3)%256;
-	 n++; p++;
+		str[n] = (*p + 3)%256;
+		n++;
+		p++;
 	}
 	str[n++]='\0';
 }
@@ -20,8 +21,9 @@ void decrypt(char *str)
 
 	while(*p)
 	{
-	 str[n] = (*p - 3)%256;
-	 n++; p++;
+		str[n] = (*p - 3)%256;
+		p++;
+		n++; 
 	}
 	str[n++]='\0';
 }
