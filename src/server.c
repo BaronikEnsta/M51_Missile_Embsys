@@ -75,8 +75,9 @@ int main(int argc , char *argv[])
 			decrypt(client_message);
 			led(client_message);
 			
-			//Send the message back to client
-			write(client_sock , client_message, strlen(client_message));
+			//Send an ack back to client
+			write(client_sock , "ACK", 3);
+
 			bzero(client_message, MAXSIZE);
 		}
 	
