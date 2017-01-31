@@ -8,11 +8,13 @@
 
 Simple client/server architecture for a APF28-Dev embedded card connected to a network.
 
-The client take an input, "encrypt" it with a caesar cipher and send it to the server.
+The client takes an input, "encrypt" it with a caesar cipher and sends it to the server.
 
-The server (on the card) decrypt the message and make a LED blink according to the morse code. It sends back an "ack" to the client. Upon client disconnection the server clears the socket and stays up.
+The server (on the card) decrypts the message and makes the LED blink according to the morse code. It then sends back an ACK to the client. 
 
-By default, the LED has to be connected to the GPIO pin #18.
+Upon client disconnection the server clears the socket and stays up.
+
+### /!\ By default, the LED has to be connected to the GPIO pin #18.
 
 ---------------------------------------
 ## Content:
@@ -20,11 +22,15 @@ By default, the LED has to be connected to the GPIO pin #18.
 
 ### /src :
 
-- client.c and server.c : the client-server code, to send the text to translate in morse to the APF28-Dev. (server.c must be cross-compiled on the card)
+- client.c and server.c : the client-server code
 
-- crypto.c: contains 2 functions, encrypt and decrypt (Ceasar encryption, +3).To be cross-compiled on the card.
+	(NB : server.c must be cross-compiled on the card)
 
-- fct_led.c :this file contains the functions to translate the alphabetic message in morse code. The returned value is a 1 or a 0, making the  flashing light on or off, with different times os sleep to distinct words
+- crypto.c: contains encrypt and decrypt functions 
+
+	(Ceasar-3 encryption).
+
+- fct_led.c : translation of the alphabetic message into morse code. The returned value is a 1 or a 0, making the  flashing light on or off, with different timing. A long pause indicates the beginning of a message.
 
 - params.h : Parameters header.
 	- MAXSIZE : Maximum size in bytes for the message
@@ -45,13 +51,14 @@ SP99app : Shell script executed upon boot. It initializes the LED GPIO file and 
 ## Installation:
 ---------------------------------------
 
-1) Compilation of the sources:
+1) Compilation:
 	$ make
 
-2) Cross compilation of the sources:
+2) Cross compilation:
 	$ make arm
 
 3) Scp bin/server-arm on the card, in the /root directory
+	
 	(You can also scp bin/client-arm to do a local test on the card)
 
 4) Scp scripts/S99app on the card, in the /etc/init.d directory
@@ -63,10 +70,15 @@ SP99app : Shell script executed upon boot. It initializes the LED GPIO file and 
 ---------------------------------------
 
 1) Change the value of GPIO_value inside params.h
+	
 	(e.g "./test.txt")
+
 2) In the terminal :
+	
 	$ bin/server
+   
    In another terminal :
+	
 	$ bin/client
 
 3) Send message from the client and cat the content of test.txt to see if it changes
@@ -77,8 +89,11 @@ SP99app : Shell script executed upon boot. It initializes the LED GPIO file and 
 ---------------------------------------
 
 1) In a ssh terminal :
+
 	$ ./server-arm
+
 In another :
+	
 	$ ./client-arm	
 
 2) Send message, see if the LED blink
@@ -91,9 +106,10 @@ In another :
  (Assuming the installation process has been followed and the card is properly set up)
 
 1) On the host :
+
 	$ bin/client [serv_IP]
 
-( 'serv_IP' being the ipV4 adress of the card on the local network )
+	('serv_IP' being the ipV4 adress of the card on the local network )
 
 2) Send message, see if the LED blink
 
@@ -102,36 +118,37 @@ In another :
 ---------------------------------------
 
 $ make
-gcc ./src/client.c -o ./bin/client
-gcc ./src/server.c -o ./bin/server
+
+	gcc ./src/client.c -o ./bin/client
+	gcc ./src/server.c -o ./bin/server
 
 $ bin/server
-Socket created
-bind done
-Waiting for incoming connections...
+	
+	Socket created
+	bind done
+	Waiting for incoming connections...
 
 
 $ bin/client
-Socket created
-Connected
 
-Enter message : hello world 
-Sending : khoor#zruog
-Server reply :
-ACK
+	Socket created
+	Connected
+
+	Enter message : hello world 
+	Sending : khoor#zruog
+	Server reply :
+	ACK
 
 
 	(on the server screen :)
 	ppcccccclccclccllllllclllllclcclccclcc
 
 $ cat test.txt 
-1
-$ cat test.xt 
-0
-$ cat test.xt 
-1
+	1
 
-	...etc.
+$ cat test.xt 
+	
+	0
 
 ### Upon client-side Ctrl+C :
 	
