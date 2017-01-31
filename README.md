@@ -8,7 +8,7 @@
 
 Simple client/server architecture for a APF28-Dev embedded card connected to a network.
 
-The client takes an input, "encrypt" it with a caesar cipher and sends it to the server.
+The client takes a string input, "encrypts" it with a caesar cipher and sends it to the server.
 
 The server (on the card) decrypts the message and makes the LED blink according to the morse code. It then sends back an ACK to the client. 
 
@@ -144,6 +144,7 @@ $ bin/client
 	ppcccccclccclccllllllclllllclcclccclcc
 
 $ cat test.txt 
+	
 	1
 
 $ cat test.xt 
@@ -160,9 +161,18 @@ Server-side :
 	
 	Client disconnected
 	Waiting for incoming connections...
+
+----------------------------------------
+## TODO:
+----------------------------------------
+
+- Autoconf
+
+- Input sanitation
 	
 ----------------------------------------
 ## Other:
 ----------------------------------------
 
 For any question, feel free to contact us!
+
